@@ -6,7 +6,7 @@
       </div>
       <button 
         @click="$emit('add-obat')"
-        class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-all"
+        class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-all shadow-sm"
       >
         <span>+</span> Tambah Obat
       </button>

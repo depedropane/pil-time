@@ -167,9 +167,9 @@
 import NavbarView from './NavbarView.vue'
 import FooterView from './FooterView.vue'
 
-// IMPORT PDF
-import panduanNakes from './../../assets/pdf/panduannakes.pdf'
-import panduanPasien from './../../assets/pdf/panduanpasien.pdf'
+// PDF URLs from public directory
+const panduanNakesUrl = '/pdf/panduannakes.pdf'
+const panduanPasienUrl = '/pdf/panduanpasien.pdf'
 
 export default {
   name: "PanduanView",
@@ -181,8 +181,8 @@ export default {
 
   data() {
     return {
-      panduanNakes,
-      panduanPasien,
+      panduanNakes: panduanNakesUrl,
+      panduanPasien: panduanPasienUrl,
       openFaq: null,
       faqs: [
         {

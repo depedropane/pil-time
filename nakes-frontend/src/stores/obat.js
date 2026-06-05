@@ -23,7 +23,6 @@ export const useObatStore = defineStore('obat', () => {
 
   const createObat = async (data) => {
     try {
-      // PERBAIKAN: Pastikan header multipart/form-data disertakan eksplisit untuk backend Go
       const response = await apiClient.post('/admin/info-obat', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -40,16 +39,11 @@ export const useObatStore = defineStore('obat', () => {
 
   const updateObat = async (id, data) => {
     try {
-      /* CATATAN PENTING UNTUK GO GIN: 
-         Jika backend kamu menggunakan Gin dan method r.PUT, pastikan 
-         tidak ada parameter '_method' tambahan yang biasa digunakan di Laravel.
-      */
       const response = await apiClient.put(`/admin/info-obat/${id}`, data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
-      
       await fetchObats() 
       return response.data.data
     } catch (err) {
