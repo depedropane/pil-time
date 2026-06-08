@@ -196,7 +196,7 @@
 
                   <div class="p-3 bg-teal-50 rounded-lg border border-teal-100">
                     <p class="text-xs text-teal-600">
-                      Pengingat akan dikirim 5 menit sebelum waktu minum
+                      Pengingat akan dikirim 15 menit sebelum waktu minum
                     </p>
                   </div>
                 </div>

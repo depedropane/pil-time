@@ -205,10 +205,10 @@
 
             <input v-model="jadwal.searchObat" class="input mb-4" placeholder="Cari nama obat..." />
 
-            <div class="list-container">
+            <div class="list-container max-h-40 overflow-y-auto">
               <div v-for="o in jadwal.filteredObat" :key="o.obat_id"
                 @click="jadwal.selectObat(o)"
-                :class="['list-item flex items-center justify-between', jadwal.form.obatId === o.obat_id ? 'active' : '']">
+                :class="['list-item flex items-center justify-between', jadwal.form.obatList && jadwal.form.obatList.find(x => x.obat_id === o.obat_id) ? 'active' : '']">
 
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-sm font-bold text-blue-600">
@@ -217,13 +217,25 @@
                   <span>{{ o.nama_obat }}</span>
                 </div>
 
-                <span v-if="jadwal.form.obatId === o.obat_id" class="text-teal-500">✔</span>
+                <span v-if="jadwal.form.obatList && jadwal.form.obatList.find(x => x.obat_id === o.obat_id)" class="text-teal-500">✔</span>
               </div>
             </div>
 
             <!-- OBAT TERPILIH -->
-            <div v-if="jadwal.form.obatId" class="mt-4 bg-teal-50 p-3 rounded-xl text-sm text-teal-700">
-              ✔ Obat Terpilih: <b>{{ jadwal.form.nama_obat }}</b>
+            <div v-if="jadwal.form.obatList && jadwal.form.obatList.length > 0" class="mt-4 space-y-3">
+              <h4 class="text-sm font-bold text-slate-800">Obat Terpilih ({{ jadwal.form.obatList.length }})</h4>
+              <div v-for="selected in jadwal.form.obatList" :key="selected.obat_id" class="p-3 bg-white border border-slate-200 rounded-xl shadow-sm relative">
+                <button @click="jadwal.selectObat({ obat_id: selected.obat_id })" class="absolute top-2 right-2 text-gray-400 hover:text-red-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <div class="flex-1 pr-6">
+                  <h5 class="text-xs font-bold text-slate-900 mb-2">{{ selected.nama_obat }}</h5>
+                  <label class="block text-[10px] font-bold text-teal-600 uppercase tracking-wider mb-1">Dosis / Takaran</label>
+                  <input :value="selected.dosis" @input="jadwal.updateObatDosis(selected.obat_id, $event.target.value)"
+                    type="text" placeholder="Contoh: 1 tablet"
+                    class="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none transition-all"/>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -428,7 +440,7 @@
 
     <!-- INFO BAWAH -->
     <div class="bg-teal-50 text-teal-600 text-xs p-3 rounded-lg mt-4">
-      Pengingat akan dikirim 5 menit sebelum waktu minum
+      Pengingat akan dikirim 15 menit sebelum waktu minum
     </div>
   </div>
 

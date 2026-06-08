@@ -105,6 +105,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { API_BASE_URL } from '../../config'
 
 const props = defineProps(['initialData', 'isEditing', 'submitting'])
 const emit = defineEmits(['submit', 'cancel'])
@@ -134,7 +135,7 @@ const fillForm = () => {
     form.value.imageFile = null
     
     if (props.initialData.gambar) {
-      previewUrl.value = `https://pil-time-pam-production.up.railway.app${props.initialData.gambar}`
+      previewUrl.value = `${API_BASE_URL}${props.initialData.gambar}`
     } else {
       previewUrl.value = null
     }
