@@ -17,6 +17,7 @@ export const useJadwalStore = defineStore('jadwal', () => {
 
   const currentStep = ref(0)
   const searchQuery = ref('')
+  const filterKategori = ref('Semua')
   const searchPasien = ref('')
   const searchObat = ref('')
   const selectedWaktuMinum = ref([])
@@ -112,11 +113,27 @@ export const useJadwalStore = defineStore('jadwal', () => {
       return true
     })
 
-    if (!searchQuery.value) return list
+    // Apply search and category filter
+    return list.filter(j => {
+      // 1. Search Query Match
+      let matchesSearch = true
+      if (searchQuery.value) {
+        const query = searchQuery.value.toLowerCase()
+        const matchPasien = j.pasien_nama?.toLowerCase().includes(query)
+        const matchObat = j.nama_obat?.toLowerCase().includes(query)
+        matchesSearch = matchPasien || matchObat
+      }
 
-    return list.filter(j =>
-      j.pasien_nama?.toLowerCase().includes(searchQuery.value.toLowerCase())
-    )
+      // 2. Category Match
+      let matchesCategory = true
+      if (filterKategori.value === 'Mandiri') {
+        matchesCategory = j.kategori_obat === 'Mandiri'
+      } else if (filterKategori.value === 'Resep Nakes') {
+        matchesCategory = j.kategori_obat !== 'Mandiri'
+      }
+
+      return matchesSearch && matchesCategory
+    })
   })
 
   // =========================
@@ -292,6 +309,7 @@ const submitJadwal = async () => {
     currentStep,
     steps,
     searchQuery,
+    filterKategori,
     searchPasien,
     searchObat,
     selectedWaktuMinum,
